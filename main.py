@@ -267,7 +267,7 @@ async def create_anfrage(file: UploadFile = File(...)):
         
     print("audio_file2: ",audio_file2)
    
-    print("audio path: ", path)
+    print("audio pathas: ", path)
     files_ds_list = tf.random.shuffle([str(path)])
     files_ds = tf.data.Dataset.from_tensor_slices(files_ds_list)
     
