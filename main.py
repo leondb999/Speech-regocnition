@@ -16,10 +16,8 @@ import keras
 import io
 import time
 
-#model_dir = 'C:/2019-Leon-eigene-Dateien/Studium/6 Semester/Integrationsseminar/Integration/DHBW/model.h5'
-model = tf.keras.models.load_model(
-    'model.h5',
-    custom_objects=None, compile=True)
+#model_dir = 'C:/2019-Leon-eigene-Dateien/Studium/6 Semester/Integrationsseminar/Integration/DHBW/model.h5'asddas
+model = tf.keras.models.load_model('model.h5',custom_objects=None, compile=True)
 
 
 
