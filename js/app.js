@@ -179,18 +179,25 @@ function createDownloadLink(blob) {
 	var file = new File([blob], filename,{ lastModified: new Date().getTime(), type: blob.type });
 	console.log("file: ", file);
 	var formData = new FormData();
-	formData.append("file", file, file.name);
-	console.log("formData: ", formData);
+	console.log(blob)
+	formData.append("file", blob, filename);
+	console.log("formdata.filename:", formData.filename)
+
+	for (var key of formData.entries()) {
+		console.log(key)
+		console.log("formdata: key")
+        console.log(key[0] + ', ' + key[1]);
+    }
 	$.ajax({
 		type: 'post',
-	
-		contentType: "multipart/form-data",
-		data: file, //JSON.stringify({"titel": "Alex du geile Sau", "price": "10"}),
+		processData: false,
+		contentType: false,
+		data: formData, //JSON.stringify({"titel": "Alex du geile Sau", "price": "10"}),
 		url: 'http://127.0.0.1:8000/anfrage/',
 		success: function(response){
 	      //element_ergebnisfeld.innerHTML=response.titel;
-		  console.log("success");
-		  console.log('Success message: ' + response);},
+		
+		  console.log('Success message: ' + response.filename);},
 		error: function(response){console.log("error:", response);}                
   });
 

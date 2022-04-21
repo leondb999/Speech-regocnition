@@ -9,16 +9,17 @@ from numpy import argmax
 from numpy import max
 from numpy import array
 from fastapi.middleware.cors import CORSMiddleware
-
-
+import aiofiles
+import tensorflow as tf
+import keras 
 #print(tf.version.VERSION)
+import io
+import time
 
-
-
-#model_dir = 'C:\2019-Leon-eigene-Dateien\Studium\6 Semester\Integrationsseminar\Integration\DHBW\model.h5'
-#model = tf.keras.load_model(
- #   model_dir,
- #   custom_objects=None, compile=True)
+#model_dir = 'C:/2019-Leon-eigene-Dateien/Studium/6 Semester/Integrationsseminar/Integration/DHBW/model.h5'
+model = tf.keras.models.load_model(
+    'model.h5',
+    custom_objects=None, compile=True)
 
 
 
@@ -56,12 +57,19 @@ class Anfrage(BaseModel):
 class PydanticFile(BaseModel):
     file: UploadFile = File(...)
 
+def current_milli_time():
+    return str(round(time.time() * 1000))
+
 @api_router.post("/anfrage/")
-async def create_anfrage(file: UploadFile):
-    #tempfolder 
-    x = preprocessing()
-    output = model.predict()
-    #anfrage_dict = anfrage.dict()
-    #return anfrage_dict
-    return {"filename": file.filename}
+#async def create_anfrage(file: UploadFile=File(...)):
+async def create_anfrage(file: UploadFile = File(...)):
+    path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/"+current_milli_time() + "audio.wav"
+    with open(path, 'wb') as audio_file:
+        content = await file.read()
+        audio_file.write(content)
+        audio_file.close()
+        
+    print("audio path: ", path)
+    return {"filename": audio_file}
+
 app.include_router(api_router)
