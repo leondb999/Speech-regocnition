@@ -42,8 +42,9 @@ var Recorder = exports.Recorder = (function () {
         _classCallCheck(this, Recorder);
 
         this.config = {
-            bufferLen: 4096,
-            numChannels: 2,
+            bufferLen: 2048,
+           // bufferLen: 4096,
+            numChannels: 1,
             mimeType: 'audio/wav'
         };
         this.recording = false;
@@ -51,7 +52,7 @@ var Recorder = exports.Recorder = (function () {
             getBuffer: [],
             exportWAV: []
         };
-
+        
         Object.assign(this.config, cfg);
         this.context = source.context;
         this.node = (this.context.createScriptProcessor || this.context.createJavaScriptNode).call(this.context, this.config.bufferLen, this.config.numChannels, this.config.numChannels);
@@ -132,6 +133,7 @@ var Recorder = exports.Recorder = (function () {
             function getBuffer() {
                 var buffers = [];
                 for (var channel = 0; channel < numChannels; channel++) {
+                    console.log("channels:", channel)
                     buffers.push(mergeBuffers(recBuffers[channel], recLength));
                 }
                 self.postMessage({ command: 'getBuffer', data: buffers });
