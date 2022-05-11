@@ -8,7 +8,7 @@ import shutil
 import h5py
 
 import numpy as np
-import librosa 
+import librosa
 import seaborn as sns
 import tensorflow as tf
 import wave
@@ -30,7 +30,7 @@ from numpy import array
 from fastapi.middleware.cors import CORSMiddleware
 import aiofiles
 import tensorflow as tf
-import keras 
+import keras
 #print(tf.version.VERSION)
 import io
 import time
@@ -175,7 +175,7 @@ def ergebnis_auswerten(result, label_index):
     print("sigmoid_list: ", sigmoid_list)
     value_pred = sigmoid_list[label_index]
     label  = commands[label_index]
-    
+
     '''
     # Display highest pred value & index to get label from 'commands' list
     index = 0
@@ -195,7 +195,7 @@ def ergebnis_auswerten(result, label_index):
     #   print("word konnte nicht erkannt werden, spreche das richtige label")
     # else:
     #label = commands[index - 1]
-    
+
     print("value_pred: ", value_pred, "label:", label)
     return [value_pred, label]
 
@@ -256,14 +256,14 @@ def read_wav(path, sr, duration=None, mono=True):
 
 class Anfrage(BaseModel):
     file: UploadFile = File(...)
-    label_index: str 
+    label_index: str
 
 @api_router.post("/anfrage/")
 #async def create_anfrage(file: UploadFile=File(...)):
 #async def create_anfrage(file: UploadFile = File(...), anfrage: Anfrage):
 async def create_anfrage(file: UploadFile = File(...)):
-    path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
- 
+    path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
+
     label_index = int(file.filename)
     print("----------------------label_index:", label_index)
     #Erstelle Wav File
@@ -281,7 +281,7 @@ async def create_anfrage(file: UploadFile = File(...)):
     print("sound channels:", sound.channels)
     files_ds_list = tf.random.shuffle([str(path)])
     files_ds = tf.data.Dataset.from_tensor_slices(files_ds_list)
-    
+
     print(np.array(files_ds))
     label="cat"
 
@@ -298,8 +298,8 @@ async def create_anfrage(file: UploadFile = File(...)):
     result_list = ergebnis_auswerten(prediction_ergebnis,label_index)
     print("commands: ", commands)
     print("Hello: ", result_list)
-   
+
     return {"filename": result_list[0], 'label': result_list[1]}
-    
+
     #return {"filename": "hi"}
 app.include_router(api_router)
