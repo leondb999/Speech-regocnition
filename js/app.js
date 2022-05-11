@@ -123,7 +123,7 @@ function createDownloadLink(blob) {
 	var li = document.createElement('li');
 	var link = document.createElement('a');
 	
-
+	
 	//name of .wav file to use during upload and download (without extendion)
 	//var filename = new Date().toISOString();
 	var filename = 0;
@@ -199,12 +199,12 @@ function createDownloadLink(blob) {
 		data: formData, //JSON.stringify({"titel": "Alex du geile Sau", "price": "10"}),
 		url: 'http://127.0.0.1:8000/anfrage/',
 		success: function(response){
-		https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
+		//https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
 	      //element_ergebnisfeld.innerHTML=response.titel;
 		 console.log("formData.label_index: ", formData.label_index)
-		  console.log('Success message: ' + response.filename + ", " + response.label);
-		  
-		
+		console.log('Success message: ' + response.filename + ", " + response.label);
+		//$.document.getElementsById(element_ergebnisfeld).innerHTML()=response.filename  
+		$("#element_ergebnisfeld").html(response.filename)
 		},
 		error: function(response){console.log("error:", response);}                
   });

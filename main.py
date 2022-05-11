@@ -262,8 +262,10 @@ class Anfrage(BaseModel):
 #async def create_anfrage(file: UploadFile=File(...)):
 #async def create_anfrage(file: UploadFile = File(...), anfrage: Anfrage):
 async def create_anfrage(file: UploadFile = File(...)):
-    path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
+    #Leon path = C:\2019-Leon-eigene-Dateien\Studium\6-Semester\Integrationsseminar\Speech-regocnition\audio_files
+    #path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
 
+    path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
     label_index = int(file.filename)
     print("----------------------label_index:", label_index)
     #Erstelle Wav File
