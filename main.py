@@ -34,7 +34,7 @@ import keras
 #print(tf.version.VERSION)
 import io
 import time
-
+from pydub import AudioSegment
 
 
 def get_label(file_path):
@@ -165,15 +165,18 @@ def ergebnis_berechnen(wavdatei):
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
-def ergebnis_auswerten(result):
+def ergebnis_auswerten(result, label_index):
     sigmoid_list = []
     # Bringe alle prediction Werte auf eine Scala
-
+    # Konvertiere Prediction in Prozentzahl
     for prediction in result:
         calc = sigmoid(prediction)
         sigmoid_list.append(calc)
     print("sigmoid_list: ", sigmoid_list)
-
+    value_pred = sigmoid_list[label_index]
+    label  = commands[label_index]
+    
+    '''
     # Display highest pred value & index to get label from 'commands' list
     index = 0
     value = 0
@@ -187,11 +190,14 @@ def ergebnis_auswerten(result):
             print("index: ", index)
     print("commands: ", commands)
     print("value: ", value)
+    '''
     # if(value < 0.1):
     #   print("word konnte nicht erkannt werden, spreche das richtige label")
     # else:
-    print("value: ", value, "label:", commands[index - 1], ", index: ", index - 1)
-    return value
+    #label = commands[index - 1]
+    
+    print("value_pred: ", value_pred, "label:", label)
+    return [value_pred, label]
 
 
 
@@ -227,9 +233,6 @@ async def main():
                 blob: bytes=File(...)
 """
 
-class Anfrage(BaseModel):
-    filename: str
-    bytes : bytes
 
 class PydanticFile(BaseModel):
     file: UploadFile = File(...)
@@ -251,23 +254,31 @@ def read_wav(path, sr, duration=None, mono=True):
     wav, _ = librosa.load(path) #librosa.load(path, mono=mono, sr=sr, duration=duration)
     return wav
 
+class Anfrage(BaseModel):
+    file: UploadFile = File(...)
+    label_index: str 
 
 @api_router.post("/anfrage/")
 #async def create_anfrage(file: UploadFile=File(...)):
+#async def create_anfrage(file: UploadFile = File(...), anfrage: Anfrage):
 async def create_anfrage(file: UploadFile = File(...)):
     path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
+ 
+    label_index = int(file.filename)
+    print("----------------------label_index:", label_index)
+    #Erstelle Wav File
     with open(path, 'wb') as audio_file:
-        content = file.read()
+        content = await file.read()
+        print("type:", type(content))
         audio_file.write(content)
         audio_file.close()
-    with open(path, 'wb') as audio_file2:
-        content =  read_wav(path, sr=None, duration=None, mono=True) 
-        audio_file2.write(content)
-        audio_file2.close()
-        
-    print("audio_file2: ",audio_file2)
-   
-    print("audio pathas: ", path)
+
+    #Konvertiere Wav Datei zu Mono indem channels zu 1 gesetzt werden
+    sound = AudioSegment.from_wav(path)
+    sound = sound.set_channels(1)
+    sound.export(path, format="wav")
+
+    print("sound channels:", sound.channels)
     files_ds_list = tf.random.shuffle([str(path)])
     files_ds = tf.data.Dataset.from_tensor_slices(files_ds_list)
     
@@ -284,13 +295,11 @@ async def create_anfrage(file: UploadFile = File(...)):
 
     print("my_saved_model.h5: ", model)
     prediction_ergebnis = ergebnis_berechnen(path)
-    normalisierte_prediction =ergebnis_auswerten(prediction_ergebnis)
-    print("Hello: ", normalisierte_prediction )
-
+    result_list = ergebnis_auswerten(prediction_ergebnis,label_index)
+    print("commands: ", commands)
+    print("Hello: ", result_list)
    
-
-
-
-    return {"filename": audio_file}
-
+    return {"filename": result_list[0], 'label': result_list[1]}
+    
+    #return {"filename": "hi"}
 app.include_router(api_router)

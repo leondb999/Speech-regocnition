@@ -125,7 +125,8 @@ function createDownloadLink(blob) {
 	
 
 	//name of .wav file to use during upload and download (without extendion)
-	var filename = new Date().toISOString();
+	//var filename = new Date().toISOString();
+	var filename = 0;
 	console.log("filename: ", filename);
 	//add controls to the <audio> element
 	au.controls = true;
@@ -181,12 +182,15 @@ function createDownloadLink(blob) {
 	var formData = new FormData();
 	console.log(blob)
 	formData.append("file", blob, filename);
-	console.log("formdata.filename:", formData.filename)
-
+	formData.append('label_index',1);
+	console.log("formdata.filename:", formData.filename);
+	
+	console.log("formdata.label_index: ", formData.label_index);
 	for (var key of formData.entries()) {
 		console.log(key)
 		console.log("formdata: key")
         console.log(key[0] + ', ' + key[1]);
+		console.log("formData: ", formData);
     }
 	$.ajax({
 		type: 'post',
@@ -195,9 +199,13 @@ function createDownloadLink(blob) {
 		data: formData, //JSON.stringify({"titel": "Alex du geile Sau", "price": "10"}),
 		url: 'http://127.0.0.1:8000/anfrage/',
 		success: function(response){
+		https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
 	      //element_ergebnisfeld.innerHTML=response.titel;
+		 console.log("formData.label_index: ", formData.label_index)
+		  console.log('Success message: ' + response.filename + ", " + response.label);
+		  
 		
-		  console.log('Success message: ' + response.filename);},
+		},
 		error: function(response){console.log("error:", response);}                
   });
 
