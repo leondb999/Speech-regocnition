@@ -36,6 +36,8 @@ import io
 import time
 from pydub import AudioSegment
 
+words = ["cat","bed","bird","house","dog"]
+
 
 def get_label(file_path):
     print("file_path: ", file_path)
@@ -263,10 +265,11 @@ class Anfrage(BaseModel):
 #async def create_anfrage(file: UploadFile = File(...), anfrage: Anfrage):
 async def create_anfrage(file: UploadFile = File(...)):
     #Leon path = C:\2019-Leon-eigene-Dateien\Studium\6-Semester\Integrationsseminar\Speech-regocnition\audio_files
-    #path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
+    path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
 
-    path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
+    #path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
     label_index = int(file.filename)
+    label= words[label_index]
     print("----------------------label_index:", label_index)
     #Erstelle Wav File
     with open(path, 'wb') as audio_file:
@@ -285,7 +288,7 @@ async def create_anfrage(file: UploadFile = File(...)):
     files_ds = tf.data.Dataset.from_tensor_slices(files_ds_list)
 
     print(np.array(files_ds))
-    label="cat"
+    #label="cat"
 
     waveform_ds = files_ds.map(
         map_func=get_waveform_and_label,
