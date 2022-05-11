@@ -1,43 +1,51 @@
-
 body{
   font-family: "Montserrat";
+  text-align: center;
+}
+
+h1,h2,h3 {
+font-family: "Montserrat";
+font-weight: bold;
 }
 
 
-#title {
-  background-color: #041562;
-  color: #fff;
+p {
+  color: #8f8f8f;
+  font-size: 16px;
 }
 
-h1 {
+.big-heading{
   font-family: "Montserrat";
   font-size: 3.5rem;
   line-height: 1.5;
   font-weight: 900;
-  width: 100%
 }
 
-h3 {
-  font-family: "Montserrat";
-  font-weight: bold;
-}
-
-p {
-
-  color: #8f8f8f;
+.section-heading{
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.5;
 }
 
 .container-fluid{
-  padding: 3% 15%;
+  padding:7% 15% ;
+}
 
+/* Sections*/
+
+.colored-section {
+  background-color: #041562;
+  color: #fff;
+}
+
+.white-section {
+  background-color: white;
 }
 
 /* Navigation Bar */
 
 .navbar{
-
   padding-bottom: 4.5rem;
-
 }
 
 .navbar-brand {
@@ -51,45 +59,52 @@ p {
 }
 
 .nav-link {
-
   font-size:1.2rem;
   font-family: "Montserrat";
-
 }
 
 /* Download Buttons */
 
 .download-button{
-
   margin: 5% 3% 5% 0;
+}
 
+/* Title Section*/
+
+#title .container-fluid {
+  padding: 3% 15% 7%;
+  text-align: left;
 }
 
 
 
 /* Title Image */
 
-.iphone{
-
-width: 50%;
-
-
-
+.image-container{
+  position: relative;
 }
 
+.iphone{
+  width: 60%;
+  transform: rotate(25deg);
+  position: absolute;
+  right: 30%;
+}
 
 /* features */
 
 #features{
-
-  padding: 7% 15%;
-
-
+  position: relative;
+  z-index: 1;
 }
+
+.feature-title{
+  font-size: 1.5rem
+}
+
+
 .feature-box{
   padding: 5%;
-  text-align: center;
-
 }
 
 .icon {
@@ -98,6 +113,73 @@ width: 50%;
 }
 
 .icon:hover {
-
   color: #00B4D8;
+}
+
+/* Testimonial Section */
+
+#testimonials {
+  background-color: #041562;
+}
+
+.testimonial-text {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.testimonial-image {
+  width: 10%;
+  border-radius: 100%;
+  margin: 20px;
+}
+
+#press {
+background-color: #041562;
+padding-bottom: 3%;
+}
+
+.press-logo{
+width: 15%;
+margin: 20px 20px 50px;
+}
+
+/* Pricing section */
+
+#pricing {
+  padding: 100px;
+}
+.pricing-column{
+  padding: 3% 2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1028px){
+  .iphone{
+    position: static;
+    transform: rotate(0);
+  }
+  #title{
+    text-align: center;
+  }
+}
+
+/* call to action */
+
+.calltoaction{
+
+  font-size: 3.5rem;
+  line-height: 1,5;
+  width: 100%;
+  margin: 10px auto;
+}
+
+
+
+#footer{
+  padding: 5% 0;
+}
+
+.iconfoot{
+  margin: 20px 10px;
 }
