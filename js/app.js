@@ -199,7 +199,7 @@ function createDownloadLink(blob) {
 		data: formData, //JSON.stringify({"titel": "Alex du geile Sau", "price": "10"}),
 		url: 'http://127.0.0.1:8000/anfrage/',
 		success: function(response){
-		//https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
+		//https://developer.mozilla.org/en-US/docs/Web/API/FormData/append1221
 	      //element_ergebnisfeld.innerHTML=response.titel;
 		 console.log("formData.label_index: ", formData.label_index)
 		console.log('Success message: ' + response.filename + ", " + response.label);
