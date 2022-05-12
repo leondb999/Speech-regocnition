@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "fs": "^0.0.1-security",
+    "multiparty": "^4.2.3",
+    "nodemailer": "^6.7.5",
     "speech-recorder": "^2.0.6",
     "wavefile": "^11.0.0"
   }
