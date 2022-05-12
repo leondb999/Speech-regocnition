@@ -30,6 +30,8 @@ import io
 import time
 from pydub import AudioSegment
 
+words = ["cat","bed","bird","house","dog"]
+
 
 # Definieren Sie eine Funktion, die Etiketten unter Verwendung der übergeordneten Verzeichnisse für jede Datei erstellt:
 # - Teilen Sie die Dateipfade in tf.RaggedTensors auf (Tensoren mit unregelmäßigen Abmessungen – mit Abschnitten, die unterschiedliche Längen haben können).
@@ -202,12 +204,18 @@ label="cat"
 @api_router.post("/anfrage/")
 async def create_anfrage(file: UploadFile = File(...)):
     #Leon path = C:\2019-Leon-eigene-Dateien\Studium\6-Semester\Integrationsseminar\Speech-regocnition\audio_files
-    #path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
+    path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
 
+<<<<<<< HEAD
     #TODO Bitte eigenen Pfad zum audio_files Ordner hinzufügen
     path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
     label_index = int(file.filename)
     label = commands[label_index]
+=======
+    #path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
+    label_index = int(file.filename)
+    label= words[label_index]
+>>>>>>> 77b5703a9fd32affc27ccbeb3828e9921e923eec
     print("----------------------label_index:", label_index)
     #Erstelle Wav File
     with open(path, 'wb') as audio_file:
@@ -226,7 +234,7 @@ async def create_anfrage(file: UploadFile = File(...)):
     files_ds = tf.data.Dataset.from_tensor_slices(files_ds_list)
 
     print(np.array(files_ds))
-    label="cat"
+    #label="cat"
 
     waveform_ds = files_ds.map(
         map_func=get_waveform_and_label,
