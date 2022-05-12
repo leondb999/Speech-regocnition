@@ -6,5 +6,6 @@ Steps for Installation
 
 (könnte sein dass wenn server das erste mal gestartet ist, dass man seite nochmal neuladen muss bevor es funktioniert)
 
+- ML Modell braucht einige Zeit um geladen zu werden
 image.png
     
