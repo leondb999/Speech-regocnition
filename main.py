@@ -30,7 +30,6 @@ import io
 import time
 from pydub import AudioSegment
 
-words = ["cat","bed","bird","house","dog"]
 
 
 # Definieren Sie eine Funktion, die Etiketten unter Verwendung der übergeordneten Verzeichnisse für jede Datei erstellt:
@@ -58,7 +57,7 @@ def decode_audio(audio_binary):
 # - Die Eingabe ist der WAV-Audiodateiname.
 # - Die Ausgabe ist ein Tupel, das die Audio- und Label-Tensoren enthält, die für überwachtes Lernen bereit sind.
 def get_waveform_and_label(file_path):
-    print("label",label)
+  
     audio_binary = tf.io.read_file(file_path)
     print("audio_binary", audio_binary)
     waveform = decode_audio(audio_binary)
@@ -181,10 +180,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-
-
 #Anteile Zeit in Millisekunden
 def current_milli_time():
     return str(round(time.time() * 1000))
@@ -197,26 +192,20 @@ commands = ['cat', 'bed', 'bird', 'house', 'dog']
 AUTOTUNE = tf.data.AUTOTUNE
 num_labels = len(commands)
 print("num_labels: ", num_labels)
-label="cat"
+label=""
 
 
 
 @api_router.post("/anfrage/")
 async def create_anfrage(file: UploadFile = File(...)):
     #Leon path = C:\2019-Leon-eigene-Dateien\Studium\6-Semester\Integrationsseminar\Speech-regocnition\audio_files
-    path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
+    #path= r"C:\Users\Alessandro Avanzato\github\Speech-regocnition\audio_files" + current_milli_time() + "audio.wav"
 
-<<<<<<< HEAD
     #TODO Bitte eigenen Pfad zum audio_files Ordner hinzufügen
     path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
     label_index = int(file.filename)
-    label = commands[label_index]
-=======
-    #path= r"C:/2019-Leon-eigene-Dateien/Studium/6-Semester/Integrationsseminar/Speech-regocnition/audio_files/" + current_milli_time() + "audio.wav"
-    label_index = int(file.filename)
-    label= words[label_index]
->>>>>>> 77b5703a9fd32affc27ccbeb3828e9921e923eec
     print("----------------------label_index:", label_index)
+    
     #Erstelle Wav File
     with open(path, 'wb') as audio_file:
         content = await file.read()
@@ -228,29 +217,14 @@ async def create_anfrage(file: UploadFile = File(...)):
     sound = AudioSegment.from_wav(path)
     sound = sound.set_channels(1)
     sound.export(path, format="wav")
-
     print("sound channels:", sound.channels)
-    files_ds_list = tf.random.shuffle([str(path)])
-    files_ds = tf.data.Dataset.from_tensor_slices(files_ds_list)
-
-    print(np.array(files_ds))
-    #label="cat"
-
-    waveform_ds = files_ds.map(
-        map_func=get_waveform_and_label,
-        num_parallel_calls=AUTOTUNE)
-
-    spectrogram_ds = waveform_ds.map(
-        map_func=get_spectrogram_and_label_id,
-        num_parallel_calls=AUTOTUNE)
-
-    print("my_saved_model.h5: ", model)
+    
+    #Berechne Ergebnis
     prediction_ergebnis = ergebnis_berechnen(path)
     result_list = ergebnis_auswerten(prediction_ergebnis,label_index)
-    print("commands: ", commands)
-    print("Hello: ", result_list)
+    print("Labels: ", commands)
+    print("Prediction & Label: ", result_list)
 
     return {"filename": result_list[0], 'label': result_list[1]}
 
-    #return {"filename": "hi"}
 app.include_router(api_router)
