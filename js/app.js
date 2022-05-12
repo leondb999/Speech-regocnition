@@ -123,7 +123,7 @@ function createDownloadLink(blob) {
 
   console.log("blob: ", blob)
   var url = URL.createObjectURL(blob);
-  console.log("url: ", url) //blob:null/17209e14-5db0-4526-b3c7-3886fe5d35b3
+  console.log("url: ", url)
   var au = document.createElement('audio');
   var li = document.createElement('li');
   var link = document.createElement('a');
@@ -136,7 +136,7 @@ function createDownloadLink(blob) {
   //add controls to the <audio> element
   au.controls = true;
   au.src = url;
-  console.log("au: ", au); //<audio controls="" src="blob:null/3208748f-098c-4cfb-8493-9ec37356dada"></audio>
+  console.log("au: ", au);
   //save to disk link
   link.href = url;
   link.download = filename + ".wav"; //download forces the browser to donwload the file using the  filename
@@ -147,13 +147,7 @@ function createDownloadLink(blob) {
   var data = au.src;
   var test = document.createElement('p');
   test.innerHTML = blob;
-  //li.appendChild(test);
 
-  //add the filename to the li
-  //li.appendChild(document.createTextNode(filename + ".wav "))
-
-  //add the save to disk link to li
-  //li.appendChild(link);
 
   //upload link
   var upload = document.createElement('a');
@@ -171,50 +165,34 @@ function createDownloadLink(blob) {
     xhr.open("POST", "upload.php", true);
     xhr.send(fd);
   })
-  li.appendChild(document.createTextNode(" ")) //add a space in between
-  //li.appendChild(upload) //add the upload link to li
-
-  //add the li element to the ol
-
-  //add the li element to the ol
-  //recordingsList.appendChild(li);
-
-  //formData.append("filename", "ich bin ein file name")
-  //fd.append("blob",blob, filename);
+  li.appendChild(document.createTextNode(" "))
 
 
 
-
-	console.log("---------------------------------- " + label_index);
   var file = new File([blob], filename, {
     lastModified: new Date().getTime(),
     type: blob.type
   });
   console.log("file: ", file);
+
+  //Erstelle formdata um Daten an FastAPI zu senden
+
   var formData = new FormData();
-  console.log(blob)
   formData.append("file", blob, filename);
   formData.append('filename', String(label_index));
-  console.log("formdata.filename:", formData.filename);
 
-  console.log("formdata.label_index: ", formData.label_index);
-  for (var key of formData.entries()) {
-    console.log(key)
-    console.log("formdata: key")
-    console.log(key[0] + ', ' + key[1]);
-    console.log("formData: ", formData);
-  }
+  //Sende Daten an API und gebe Ergebnis auf der Website aus
+
   $.ajax({
     type: 'post',
     processData: false,
     contentType: false,
-    data: formData, //JSON.stringify({"titel": "Alex du geile Sau", "price": "10"}),
+    data: formData, //"Alex du geile Sau"
     url: 'http://127.0.0.1:8000/anfrage/',
     success: function(response) {
-      //https://developer.mozilla.org/en-US/docs/Web/API/FormData/append1221
-      //element_ergebnisfeld.innerHTML=response.titel;
+
       console.log('Success message: ' + response.filename + ", " + response.label);
-      //$.document.getElementsById(element_ergebnisfeld).innerHTML()=response.filename
+
 			var result_float = response.filename;
       $("#element_ergebnisfeld").html(result_float.toFixed(2)*100 + "% Accuracy");
     },
