@@ -84,12 +84,7 @@ p {
   position: relative;
 }
 
-.iphone{
-  width: 60%;
-  transform: rotate(25deg);
-  position: absolute;
-  right: 30%;
-}
+
 
 /* features */
 
@@ -154,15 +149,6 @@ margin: 20px 20px 50px;
   margin-right: auto;
 }
 
-@media (max-width: 1028px){
-  .iphone{
-    position: static;
-    transform: rotate(0);
-  }
-  #title{
-    text-align: center;
-  }
-}
 
 /* call to action */
 
