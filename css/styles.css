@@ -187,9 +187,22 @@ margin: 0 auto;
 margin-bottom: 30px;
 }
 
+
 #element_ergebnisfeld{
   margin-bottom: 20px;
 }
+
+#cta{
+
+  margin-bottom: 100px;
+
+}
+
+.join{
+margin-top:80px;
+
+}
+
 
 #footer{
   padding: 5% 0;
